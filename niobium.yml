@@ -1,0 +1,10 @@
+---
+
+- hosts: niobium.michik.net
+  remote_user: root
+  roles:
+    - common
+    - acmetool
+    - dovecot-imapd
+    - dovecot-pop3d
+    - spamassassin

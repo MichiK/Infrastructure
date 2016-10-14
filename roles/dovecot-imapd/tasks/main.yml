@@ -1,0 +1,14 @@
+---
+
+# Install and configure the Dovecot IMAP server
+
+- name: install dovecot-imapd
+  apt: name=dovecot-imapd state=present
+  tags: [apt, packages, dovecot]
+
+- name: dovecot imap configuration
+  template:
+    src: "20-imap.conf.j2"
+    dest: "/etc/dovecot/conf.d/20-imap.conf"
+  notify: restart dovecot
+  tags: [config, dovecot]

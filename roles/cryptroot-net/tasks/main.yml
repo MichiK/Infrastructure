@@ -1,0 +1,19 @@
+---
+
+- name: install dropbear
+  apt: name=dropbear state=installed update_cache=yes cache_valid_time=3600
+  tags: [apt, packages, initramfs]
+
+- name: enable dropbear in initramfs configuration
+  template: src=dropbear.j2 dest=/etc/initramfs-tools/conf.d/dropbear
+  notify: update initramfs
+  tags: [initramfs, config, templates]
+
+- name: add ssh public keys to dropbear authorized_keys
+  authorized_key:
+    user: root
+    key: "{{ item }}"
+    path: "/etc/initramfs-tools/root/.ssh/authorized_keys"
+  with_items: "{{ ssh_pubkeys }}"
+  notify: update initramfs
+  tags: [initramfs, config, pubkeys]

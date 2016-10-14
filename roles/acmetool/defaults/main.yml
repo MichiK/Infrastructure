@@ -1,0 +1,10 @@
+---
+
+fqdn: "{{ ansible_fqdn }}"
+document_root: "/var/www/html"
+
+acmetool_cert_domains: "{{ fqdn }}"
+acmetool_document_root: "{{ document_root }}"
+acmetool_repo: "deb http://ppa.launchpad.net/hlandau/rhea/ubuntu xenial main"
+acmetool_key_id: "9862409EF124EC763B84972FF5AC9651EDB58DFA"
+acmetool_key_server: "keyserver.ubuntu.com"

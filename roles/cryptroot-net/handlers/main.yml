@@ -1,0 +1,5 @@
+---
+
+- name: update initramfs
+  shell: update-initramfs -u -k all
+  tags: initramfs

@@ -1,0 +1,31 @@
+---
+
+# Install and configure the core of the Dovecot mail server
+
+- name: install dovecot-core
+  apt: name=dovecot-core state=present
+  tags: [apt, packages, dovecot]
+
+- name: basic dovecot configuration
+  lineinfile:
+    dest: "/etc/dovecot/conf.d/{{ item.dest }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { dest: "10-mail.conf",
+        regexp: "^mail_location",
+        line: "mail_location = {{ dovecot_mail_location }}" }
+  notify: restart dovecot
+  tags: [config, dovecot]
+
+- name: dovecot ssl configuration
+  template:
+    src: "10-ssl.conf.j2"
+    dest: "/etc/dovecot/conf.d/10-ssl.conf"
+  notify: restart dovecot
+  tags: [config, dovecot]
+
+- name: start/enable dovecot
+  service: name=dovecot state=started enabled=yes
+  tags: [services, dovecot]

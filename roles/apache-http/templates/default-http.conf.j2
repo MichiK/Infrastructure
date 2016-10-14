@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+<VirtualHost *:80>
+  ServerName {{ fqdn }}
+  ServerAdmin {{ apache_admin_email }}
+  DocumentRoot {{ document_root }}
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+{% if apache_force_https %}
+  <IfModule mod_ssl.c>
+    Redirect permanent / https://{{ fqdn }}/
+  </IfModule>
+{% endif %}
+{% if apache_additional_default_vhost_settings != None %}
+{{ apache_additional_default_vhost_settings }}
+{% endif %}
+</VirtualHost>
+
+# vim: syntax=apache

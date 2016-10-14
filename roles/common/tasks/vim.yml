@@ -1,0 +1,26 @@
+---
+
+# Install, configure and enable VIM.
+
+- name: install vim
+  apt: name=vim state=present update_cache=yes cache_valid_time=3600
+  tags: [apt, packages, vim]
+
+- name: uninstall vim-tiny
+  apt: name=vim-tiny state=absent purge=yes
+  tags: [apt, packages, vim]
+
+- name: configure vim
+  lineinfile:
+    dest: /etc/vim/vimrc
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: "syntax on", line: "syntax on" }
+    - { regexp: "background=dark", line: "set background=dark" }
+  tags: [vim, config]
+
+- name: make vim the default editor
+  alternatives: name=editor path=/usr/bin/vim.basic
+  tags: [vim, alternatives]

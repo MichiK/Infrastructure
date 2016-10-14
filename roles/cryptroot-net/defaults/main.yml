@@ -1,0 +1,5 @@
+---
+
+ssh_keys: []
+
+cryptroot_default_network_interface: "eth0"

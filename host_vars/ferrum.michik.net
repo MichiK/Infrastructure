@@ -1,0 +1,4 @@
+fqdn: ferrum.michik.net
+
+nfs_exports:
+  - /home/m titanium(rw,async)

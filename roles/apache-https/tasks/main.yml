@@ -1,0 +1,16 @@
+---
+
+- name: enable ssl, rewrite and header modules
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - ssl
+    - headers
+  notify: restart apache
+  tags: [config, apache, https]
+
+- name: create config for the ssl vhost
+  template:
+    dest: "/etc/apache2/sites-available/default-ssl.conf"
+    src: "default-ssl.conf.j2"
+  notify: restart apache
+  tags: [config, templates, apache, https]

@@ -1,0 +1,42 @@
+---
+
+# Configure APT accordingly (nobodoy wants recommendes packages) and install
+# the base packages that are expected to be present on all systems.
+#
+# The lists below do not include all packages installed or removed by default.
+# Packages needing additional configuration are dealt with in specific .yml
+# files, e.g. vim.
+
+- name: delete the central sources.list
+  file: dest=/etc/apt/sources.list state=absent
+  tags: [apt, repos]
+
+- name: add all the repositories needed
+  apt_repository: repo={{ item }} state=present
+  with_items: "{{ apt_standard_repos }}"
+  register: add_apt_repos
+  tags: [apt, repos]
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: add_apt_repos.changed
+  tags: apt
+
+- name: do not install recommended packages
+  lineinfile:
+    dest: "/etc/apt/apt.conf.d/99norecommends"
+    line: "APT::Install-Recommends 'false';"
+    regexp: "APT::Install-Recommends"
+    state: present
+    create: yes
+  tags: [apt, packages]
+
+- name: install essential packages
+  apt: name={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items: "{{ apt_essential_packages }}"
+  tags: [apt, packages]
+
+- name: remove unwanted packages
+  apt: name={{ item }} state=absent purge=yes
+  with_items: "{{ apt_unwanted_packages }}"
+  tags: [apt, packages]

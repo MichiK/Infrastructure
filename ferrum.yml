@@ -1,0 +1,11 @@
+---
+
+- hosts: ferrum.michik.net
+  remote_user: root
+  roles:
+    - common
+    - cryptroot-net
+    - dovecot-imapd
+    - dovecot-antispam
+    - nfs-server
+    - apache-https

@@ -1,0 +1,35 @@
+---
+
+apt_standard_repos:
+  - deb http://ftp.de.debian.org/debian/ jessie main contrib non-free
+  - deb http://ftp.de.debian.org/debian/ jessie-updates main contrib non-free
+  - deb http://security.debian.org/ jessie/updates main contrib non-free
+  - deb http://ftp.de.debian.org/debian jessie-backports main contrib non-free
+
+apt_essential_packages:
+  - ansible
+  - bind9-host
+  - htop
+  - iotop
+  - nmap
+  - bash-completion
+  - screen
+  - lm-sensors
+  - hddtemp
+  - hdparm
+  - rsync
+  - python-apt
+  - git
+
+apt_unwanted_packages:
+  - laptop-detect
+  - os-prober
+  - nano
+
+ssh_pubkeys: []
+
+sshd_port: 22
+sshd_permit_root_login: "without-password"
+sshd_host_key_size: 4096
+
+use_ntp: true

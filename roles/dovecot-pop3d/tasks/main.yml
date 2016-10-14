@@ -1,0 +1,7 @@
+---
+
+# Install and configure the Dovecot POP3 server
+
+- name: install dovecot-pop3d
+  apt: name=dovecot-pop3d state=present
+  tags: [apt, packages, dovecot]

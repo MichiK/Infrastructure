@@ -1,0 +1,16 @@
+---
+
+- name: install nfs server
+  apt: name=nfs-kernel-server state=present
+  tags: [apt, packages, nfs]
+
+- name: configure exports
+  template:
+    src: "exports.j2"
+    dest: "/etc/exports"
+  notify: restart nfs
+  tags: [config, nfs]
+
+- name: start/enable nfs
+  service: name=nfs-kernel-server state=started enabled=yes
+  tags: [service, nfs]

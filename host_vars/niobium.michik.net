@@ -1,0 +1,14 @@
+fqdn: niobium.michik.net
+use_ntp: false
+document_root: "/srv/http/michik.net/web"
+dh_param_length: 2048
+
+acmetool_cert_domains: "niobium.michik.net michik.net c3bottl.es"
+apache_force_https: false
+apache_additional_default_vhost_settings: |
+  <Directory /srv/http/michik.net/web/>
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+  </Directory>
+  WSGIScriptAlias /cards /srv/http/michik.net/web/cards/cards.wsgi

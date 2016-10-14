@@ -1,0 +1,19 @@
+---
+
+# Configure the SSH daemon as needed and copy the relevant SSH keys so that
+# we can log in from everywhere as needed.
+
+- name: add ssh public keys to root authorized_keys
+  authorized_key:
+    user: root
+    key: "{{ item }}"
+  with_items: "{{ ssh_pubkeys }}"
+  tags: [config, ssh]
+
+- name: configure sshd
+  template:
+    dest: /etc/ssh/sshd_config
+    src: sshd_config.j2
+    validate: "/usr/sbin/sshd -f %s -t"
+  notify: restart sshd
+  tags: [config, ssh]

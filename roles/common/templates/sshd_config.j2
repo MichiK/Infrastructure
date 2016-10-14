@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+
+# Please have a backup SSH session to all affected hosts ready when chaning
+# this as you may lock yourself out of remote machines when doing stupid
+# things here!
+
+Port {{ sshd_port }}
+Protocol 2
+
+HostKey /etc/ssh/ssh_host_rsa_key
+
+UsePrivilegeSeparation yes
+LoginGraceTime 120
+
+SyslogFacility AUTH
+LogLevel INFO
+
+PermitRootLogin {{ sshd_permit_root_login }}
+
+StrictModes yes
+PubkeyAuthentication yes
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+
+PrintMotd no
+PrintLastLog yes
+
+TCPKeepAlive yes
+AcceptEnv LANG LC_*
+
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+UsePAM yes
+
+# vim: syntax=sshdconfig

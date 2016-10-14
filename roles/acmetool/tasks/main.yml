@@ -1,0 +1,43 @@
+---
+
+- name: add apt repository for acmetool
+  apt_repository:
+    repo: "{{ acmetool_repo }}"
+    state: present
+  register: add_acmetool_repo
+  tags: [apt, repos, acmetool]
+
+- name: add apt key for acmetool repository
+  apt_key:
+    id: "{{ acmetool_key_id }}"
+    keyserver: "{{ acmetool_key_server }}"
+    state: present
+  register: add_acmetool_key
+  tags: [apt, keys, acmetool]
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: add_acmetool_repo.changed or add_acmetool_key.changed
+  tags: [apt, acmetool]
+
+- name: install acmetool
+  apt: name=acmetool state=present update_cache=yes cache_valid_time=3600
+  tags: [apt, packages, acmetool]
+
+- name: install acmetool response file
+  template:
+    src: "responses.j2"
+    dest: "/var/lib/acme/conf/responses"
+  tags: [templates, config, acmetool]
+
+- name: execute acmetool quickstart
+  command: "acmetool quickstart --batch"
+  args:
+    creates: "/var/lib/acme/conf/target"
+  tags: [config, acmetool]
+
+- name: request a certificate
+  command: "acmetool want --batch {{ acmetool_cert_domains }}"
+  args:
+    creates: "/var/lib/acme/live/{{ fqdn }}"
+  tags: [certs, acmetool]

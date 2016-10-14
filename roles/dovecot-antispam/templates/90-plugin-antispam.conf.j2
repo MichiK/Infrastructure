@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+plugin {
+  antispam_backend = pipe
+  antispam_trash = {{ trash_folder }}
+  antispam_spam = {{ spam_folder }}
+  antispam_pipe_program = /usr/bin/sa-learn
+  antispam_pipe_program_args =
+  antispam_pipe_program_spam_arg = --spam
+  antispam_pipe_program_notspam_arg = --ham
+
+  #antispam_debug_target = syslog
+  #antispam_verbose_debug = 1
+}

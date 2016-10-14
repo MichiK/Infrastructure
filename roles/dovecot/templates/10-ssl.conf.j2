@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+
+ssl = required
+ssl_cert = </var/lib/acme/live/{{ fqdn }}/fullchain
+ssl_key = </var/lib/acme/live/{{ fqdn }}/privkey
+ssl_dh_parameters_length = {{ dh_param_length }}
+ssl_protocols = {{ dovecot_ssl_protocols }}
+ssl_cipher_list = '{{ ssl_ciphers }}'
