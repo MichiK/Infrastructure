@@ -1,0 +1,21 @@
+-- {{ ansible_managed }}
+
+VirtualHost "{{ item }}"
+	enabled = true
+	ssl = {
+		key = "/etc/prosody/certs/{{ item }}.key";
+		certificate = "/etc/prosody/certs/{{ item }}.crt";
+		dhparam = "/etc/prosody/certs/dh-{{ dh_param_length }}.pem";
+		options = {
+			"no_sslv2";
+			"no_sslv3";
+			"no_ticket";
+			"no_compression";
+			"cipher_server_preference";
+			"single_dh_use";
+			"single_ecdh_use";
+		};
+		ciphers = "{{ prosody_ssl_ciphers }}";
+	};
+
+-- vi:syntax=lua

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# {{ ansible_managed }}
+
+set -e
+EVENT_NAME="$1"
+[ "$EVENT_NAME" = "live-updated" ] || exit 42
+
+[ -e "/etc/default/acme-reload" ] && . /etc/default/acme-reload
+[ -e "/etc/conf.d/acme-reload" ] && . /etc/conf.d/acme-reload
+[ -z "$ACME_STATE_DIR" ] && ACME_STATE_DIR="/var/lib/acme"
+
+{% for host in prosody_hosts %}
+install -m 0644 /var/lib/acme/live/{{ host }}/fullchain /etc/prosody/certs/{{ host }}.crt
+install -o prosody -m 0600 /var/lib/acme/live/{{ host }}/privkey /etc/prosody/certs/{{ host }}.key
+{% endfor %}
+
+service prosody restart >/dev/null 2>/dev/null || true

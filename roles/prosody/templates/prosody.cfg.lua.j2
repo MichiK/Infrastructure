@@ -1,0 +1,42 @@
+-- {{ ansible_managed }}
+
+modules_enabled = {
+	"roster";
+	"saslauth";
+	"tls";
+	"dialback";
+	"disco";
+	"private";
+	"vcard";
+	"privacy";
+	"compression";
+	"version";
+	"uptime";
+	"time";
+	"ping";
+	"pep";
+	"adhoc";
+	"posix";
+	"carbons";
+	"smacks";
+	--"register";
+};
+
+allow_registration = false;
+daemonize = true;
+pidfile = "/var/run/prosody/prosody.pid";
+
+c2s_require_encryption = true;
+s2s_require_encryption = true;
+
+authentication = "internal_hashed";
+
+log = {
+	info = "/var/log/prosody/prosody.log";
+	error = "/var/log/prosody/prosody.err";
+	{ levels = { "error" }; to = "syslog"; };
+};
+
+Include "conf.d/*.cfg.lua";
+
+-- vi:syntax=lua

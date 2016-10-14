@@ -1,0 +1,76 @@
+---
+
+# Install and configure the prosody XMPP server
+
+- name: install prosody
+  apt: name=prosody state=present
+  tags: [apt, packages, prosody]
+
+- name: make sure acmetool has certs for all hosts
+  fail:
+    msg: "no certificate for {{ item }}"
+  when: item not in acmetool_cert_domains
+  with_items: "{{ prosody_hosts }}"
+  tags: [config, prosody]
+
+- name: copy missing certificates
+  copy:
+    remote_src: true
+    src: "/var/lib/acme/live/{{ item }}/fullchain"
+    dest: "/etc/prosody/certs/{{ item }}.crt"
+  with_items: "{{ prosody_hosts }}"
+  notify: restart prosody
+  tags: [config, prosody]
+
+- name: copy missing keys
+  copy:
+    remote_src: true
+    src: "/var/lib/acme/live/{{ item }}/privkey"
+    dest: "/etc/prosody/certs/{{ item }}.key"
+    owner: prosody
+    group: prosody
+    mode: 0600
+  with_items: "{{ prosody_hosts }}"
+  notify: restart prosody
+  tags: [config, prosody]
+
+- name: generate DH parameters
+  command: "openssl dhparam -out /etc/prosody/certs/dh-{{ dh_param_length }}.pem {{ dh_param_length }}"
+  args:
+    creates: "/etc/prosody/certs/dh-{{ dh_param_length }}.pem"
+  notify: restart prosody
+  tags: [config, prosody]
+
+- name: check file attributes of the DH parameters
+  file:
+    path: "/etc/prosody/certs/dh-{{ dh_param_length }}.pem"
+    owner: prosody
+    group: prosody
+    mode: 0600
+  tags: [config, prosody]
+
+- name: global prosody configuration
+  template:
+    src: "prosody.cfg.lua.j2"
+    dest: "/etc/prosody/prosody.cfg.lua"
+  notify: restart prosody
+  tags: [config, prosody, templates]
+
+- name: host-based prosody configuration
+  template:
+    src: "host.cfg.lua.j2"
+    dest: "/etc/prosody/conf.d/{{ item }}.cfg.lua"
+  with_items: "{{ prosody_hosts }}"
+  notify: restart prosody
+  tags: [config, prosody, templates]
+
+- name: start/enable prosody
+  service: name=prosody state=started enabled=yes
+  tags: [services, prosody]
+
+- name: add the acmetool hook to make certificates accessible
+  template:
+    src: "acmetool-hook"
+    dest: "/usr/lib/acme/hooks/prosody"
+    mode: 0755
+  tags: [prosody, acmetool, templates]
