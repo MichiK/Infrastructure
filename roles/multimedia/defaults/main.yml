@@ -1,0 +1,11 @@
+---
+
+multimedia_repo: "deb ftp://ftp-stud.hs-esslingen.de/pub/Mirrors/debian-multimedia/ stable main non-free"
+multimedia_key_id: "5C808C2B65558117"
+multimedia_key_server: "pgp.mit.edu"
+
+multimedia_packages:
+  - ffmpeg
+  - x264
+  - x265
+  - libfdk-aac1

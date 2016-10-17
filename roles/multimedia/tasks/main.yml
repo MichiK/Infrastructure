@@ -1,0 +1,24 @@
+---
+
+- name: add all the multimedia repository
+  apt_repository: repo={{ multimedia_repo }} state=present
+  register: add_multimedia_repo
+  tags: [apt, repos, multimedia]
+
+- name: add apt key for multimedia repository
+  apt_key:
+    id: "{{ multimedia_key_id }}"
+    keyserver: "{{ multimedia_key_server }}"
+    state: present
+  register: add_multimedia_key
+  tags: [apt, keys, multimedial]
+
+- name: update apt cache
+  apt: update_cache=yes
+  when: add_multimedia_repo.changed or add_multimedia_key.changed
+  tags: [apt, multimedia]
+
+- name: install multimedia packages
+  apt: name={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items: "{{ multimedia_packages }}"
+  tags: [apt, packages]
