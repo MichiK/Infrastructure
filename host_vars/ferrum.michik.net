@@ -1,4 +1,4 @@
 fqdn: ferrum.michik.net
 
 nfs_exports:
-  - /home/m titanium(rw,async)
+  - /home/m titanium.fritz.box(rw,async)
