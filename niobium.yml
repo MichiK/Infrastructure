@@ -4,7 +4,10 @@
   remote_user: root
   roles:
     - common
+    - acmetool
+    - apache-https
     - dovecot-imapd
     - dovecot-pop3d
+    - dovecot-antispam
     - spamassassin
     - prosody
