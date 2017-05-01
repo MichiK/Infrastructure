@@ -3,7 +3,6 @@
 <IfModule mod_ssl.c>
   <VirtualHost *:443>
     ServerName {{ fqdn }}
-    ServerAdmin {{ apache_admin_email }}
     DocumentRoot {{ document_root }}
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -19,6 +18,9 @@
       Header always set X-Frame-Options "SAMEORIGIN"
       Header always set X-Content-Type-Options "nosniff"
     </IfModule>
+{% if apache_additional_default_https_vhost_settings != None %}
+  {{ apache_additional_default_https_vhost_settings }}
+{% endif %}
   </VirtualHost>
 </IfModule>
 

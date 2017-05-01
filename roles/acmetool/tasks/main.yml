@@ -24,6 +24,12 @@
   apt: name=acmetool state=present update_cache=yes cache_valid_time=3600
   tags: [apt, packages, acmetool]
 
+- name: create acmetool conf directory
+  file:
+    dest: "/var/lib/acme/conf"
+    state: directory
+  tags: [config, acmetool]
+
 - name: install acmetool response file
   template:
     src: "responses.j2"
@@ -37,7 +43,8 @@
   tags: [config, acmetool]
 
 - name: request a certificate
-  command: "acmetool want --batch {{ acmetool_cert_domains }}"
+  command: 'acmetool want --batch {{ item }}'
   args:
-    creates: "/var/lib/acme/live/{{ fqdn }}"
+    creates: "/var/lib/acme/live/{{ item }}"
+  with_items: "{{ acmetool_cert_domains }}"
   tags: [certs, acmetool]

@@ -10,7 +10,14 @@
 
 - name: create config for the ssl vhost
   template:
-    dest: "/etc/apache2/sites-available/default-ssl.conf"
-    src: "default-ssl.conf.j2"
+    dest: "/etc/apache2/sites-available/001-default-ssl.conf"
+    src: "001-default-ssl.conf.j2"
   notify: restart apache
   tags: [config, templates, apache, https]
+
+- name: activate the ssl vhost
+  command: "a2ensite 001-default-ssl.conf"
+  args:
+    creates:  "/etc/apache2/sites-enabled/001-default-ssl.conf"
+  notify: restart apache
+  tags: [config, apache, https]

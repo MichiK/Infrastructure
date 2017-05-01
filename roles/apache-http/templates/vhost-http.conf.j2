@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+<VirtualHost *:80>
+  ServerName {{ item.name }}
+  ServerAdmin {{ apache_admin_email }}
+  DocumentRoot {{ item.document_root }}
+  ErrorLog ${APACHE_LOG_DIR}/{{ item.name }}-error.log
+  CustomLog ${APACHE_LOG_DIR}/{{ item.name }}-access.log combined
+{% if apache_force_https %}
+  <IfModule mod_ssl.c>
+    Redirect permanent / https://{{ item.name }}/
+  </IfModule>
+{% endif %}
+  Alias /.well-known {{ document_root}}/.well-known
+</VirtualHost>
+
+# vim: syntax=apache

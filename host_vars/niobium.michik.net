@@ -1,18 +1,35 @@
-fqdn: niobium.michik.net
-use_ntp: false
-document_root: "/srv/http/michik.net/web"
+fqdn: "niobium.michik.net"
+
+document_root: "/var/www/html"
+
 dh_param_length: 2048
 
-acmetool_cert_domains: "niobium.michik.net michik.net c3bottl.es"
+use_ntp: false
+
+acmetool_cert_domains:
+ - "niobium.michik.net"
+ - "michik.net"
+ - "c3bottl.es"
+ - "amish-geeks.de"
+ - "www.amish-geeks.de"
+ - "krahe.name"
+ - "michael.krahe.name"
+ - "michaelkrahe.de"
+
 apache_force_https: false
-apache_additional_default_vhost_settings: |
-  <Directory /srv/http/michik.net/web/>
+
+apache_additional_default_http_vhost_settings: |
+  <Directory /var/www/>
     Options Indexes FollowSymLinks
     AllowOverride None
     Require all granted
   </Directory>
-  WSGIScriptAlias /cards /srv/http/michik.net/web/cards/cards.wsgi
+  WSGIScriptAlias /cards /var/www/html/cards/cards.wsgi
+
+apache_additional_default_https_vhost_settings: |
+  WSGIScriptAlias /cards /var/www/html/cards/cards.wsgi
 
 prosody_ssl_ciphers: "DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-RSA-AES256-SHA"
+
 prosody_hosts:
  - michik.net
