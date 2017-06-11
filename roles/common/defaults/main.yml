@@ -26,6 +26,8 @@ apt_unwanted_packages:
   - os-prober
   - nano
 
+apt_unattended_upgrades: false
+
 ssh_pubkeys: []
 
 sshd_port: 22

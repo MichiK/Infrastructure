@@ -40,3 +40,14 @@
   apt: name={{ item }} state=absent purge=yes
   with_items: "{{ apt_unwanted_packages }}"
   tags: [apt, packages]
+
+- name: do automatic apt updates/upgrades, downloads, clean
+  template:
+    src: "50periodic.j2"
+    dest: "/etc/apt/apt.conf.d/50periodic"
+  tags: [config, apt]
+
+- name: install unattended-upgrades
+  apt: name=unattended-upgrades state=installed
+  when: apt_unattended_upgrades == true
+  tags: [apt, packages]

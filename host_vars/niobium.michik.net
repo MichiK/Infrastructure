@@ -6,6 +6,8 @@ dh_param_length: 2048
 
 use_ntp: false
 
+apt_unattended_upgrades: true
+
 acmetool_cert_domains:
  - "niobium.michik.net"
  - "michik.net"
