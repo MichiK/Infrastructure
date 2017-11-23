@@ -5,4 +5,5 @@ ssl_cert = </var/lib/acme/live/{{ fqdn }}/fullchain
 ssl_key = </var/lib/acme/live/{{ fqdn }}/privkey
 ssl_dh_parameters_length = {{ dh_param_length }}
 ssl_protocols = {{ dovecot_ssl_protocols }}
+ssl_prefer_server_ciphers = {{ "yes" if dovecot_prefer_server_ciphers else "no" }}
 ssl_cipher_list = '{{ ssl_ciphers }}'
