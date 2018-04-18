@@ -1,11 +1,18 @@
 ---
 
 - name: install apache
-  apt: name=apache2 state=installed update_cache=yes cache_valid_time=3600
+  apt:
+    name: "apache2"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
   tags: [apt, packages, apache]
 
 - name: start/enable apache
-  service: name=apache2 state=started enabled=yes
+  service:
+    name: "apache2"
+    state: started
+    enabled: yes
   tags: [services, apache]
 
 - name: configure the apache default site
@@ -16,9 +23,14 @@
   tags: [config, templates, apache]
 
 - name: make sure the document root exists
-  file: path={{ document_root }} state=directory
+  file:
+    path: "{{ document_root }}"
+    state: directory
   tags: [files, apache]
 
 - name: make sure an index.html is present in the document root
-  copy: dest={{ document_root }}/index.html content="" force=no
+  copy:
+    dest: "{{ document_root }}/index.html"
+    content: ""
+    force: no
   tags: [files, apache]

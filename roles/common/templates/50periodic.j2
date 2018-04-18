@@ -1,8 +1,14 @@
-// {{ ansible_managed }}
+# {{ ansible_managed }}
 
 APT::Periodic {
   Update-Package-Lists "1";
   Download-Upgradeable-Packages "1";
   AutocleanInterval "1";
+  MaxAge "14";
+  MinAge "3";
+  MaxSize "2048";
   Unattended-Upgrade "{{ 1 if apt_unattended_upgrades else 0 }}";
+  #Unattended-Upgrade::Automatic-Reboot "false";
+  #Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+  #Verbose "0";
 };

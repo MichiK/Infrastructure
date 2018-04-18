@@ -8,9 +8,9 @@
 - name: install ntp
   apt: name=ntp state=present update_cache=yes cache_valid_time=3600
   tags: [apt, packages, ntp]
-  when: "{{ use_ntp }}"
+  when: use_ntp == true
 
 - name: start/enable ntp
   service: name=ntp state=started enabled=yes
   tags: [services, ntp]
-  when: "{{ use_ntp }}"
+  when: use_ntp == true

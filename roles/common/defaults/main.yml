@@ -32,6 +32,7 @@ ssh_pubkeys: []
 
 sshd_port: 22
 sshd_permit_root_login: "without-password"
+sshd_password_authentication: "no"
 sshd_host_key_size: 4096
 
 use_ntp: true

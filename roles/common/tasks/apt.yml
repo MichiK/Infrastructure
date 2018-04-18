@@ -8,17 +8,22 @@
 # files, e.g. vim.
 
 - name: delete the central sources.list
-  file: dest=/etc/apt/sources.list state=absent
+  file:
+    dest: "/etc/apt/sources.list"
+    state: absent
   tags: [apt, repos]
 
 - name: add all the repositories needed
-  apt_repository: repo={{ item }} state=present
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
   with_items: "{{ apt_standard_repos }}"
   register: add_apt_repos
   tags: [apt, repos]
 
 - name: update apt cache
-  apt: update_cache=yes
+  apt:
+    update_cache: yes
   when: add_apt_repos.changed
   tags: apt
 
@@ -32,12 +37,19 @@
   tags: [apt, packages]
 
 - name: install essential packages
-  apt: name={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
   with_items: "{{ apt_essential_packages }}"
   tags: [apt, packages]
 
 - name: remove unwanted packages
-  apt: name={{ item }} state=absent purge=yes
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
   with_items: "{{ apt_unwanted_packages }}"
   tags: [apt, packages]
 
@@ -48,6 +60,8 @@
   tags: [config, apt]
 
 - name: install unattended-upgrades
-  apt: name=unattended-upgrades state=installed
+  apt:
+    name: "unattended-upgrades"
+    state: present
   when: apt_unattended_upgrades == true
   tags: [apt, packages]
