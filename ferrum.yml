@@ -1,6 +1,6 @@
 ---
 
-- hosts: ferrum
+- hosts: ferrum.michik.net
   remote_user: root
   roles:
     - common

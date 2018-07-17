@@ -1,6 +1,6 @@
 ---
 
-- hosts: niobium
+- hosts: niobium.michik.net
   remote_user: root
   roles:
     - common
