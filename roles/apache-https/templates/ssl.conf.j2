@@ -1,0 +1,10 @@
+<IfModule mod_ssl.c>
+  SSLCipherSuite '{{ ssl_ciphers }}'
+  SSLProtocol {{ apache_ssl_protos }}
+  SSLHonorCipherOrder On
+  SSLOpenSSLConfCmd ECDHParameters secp384r1
+  SSLOpenSSLConfCmd Curves secp384r1
+  SSLUseStapling off
+</IfModule>
+
+# vim: syntax=apache

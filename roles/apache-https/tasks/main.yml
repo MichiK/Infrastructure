@@ -1,5 +1,19 @@
 ---
 
+- name: configure the ssl module
+  template:
+    dest: "/etc/apache2/conf-available/ssl.conf"
+    src: "ssl.conf.j2"
+  notify: restart apache
+  tags: [config, apache, https]
+
+- name: activate the ssl configuration
+  command: "a2enconf ssl.conf"
+  args:
+    creates: "/etc/apache2/conf-enabled/ssl.conf"
+  notify: restart apache
+  tags: [config, apache, https]
+
 - name: enable ssl, rewrite and header modules
   apache2_module: name={{ item }} state=present
   with_items:
