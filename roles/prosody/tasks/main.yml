@@ -73,6 +73,11 @@
   service: name=prosody state=started enabled=yes
   tags: [services, prosody]
 
+- name: make sure the acmetool hook directory exists
+  file:
+    path: "/usr/lib/acme/hooks"
+    state: directory
+
 - name: add the acmetool hook to make certificates accessible
   template:
     src: "acmetool-hook"
