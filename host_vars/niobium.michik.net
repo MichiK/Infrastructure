@@ -35,5 +35,3 @@ prosody_ssl_ciphers: "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DH
 
 prosody_hosts:
  - michik.net
-
-sshd_password_authentication: "yes"

@@ -3,12 +3,9 @@
 # Install and configure the prosody XMPP server
 
 - name: install prosody and dependencies
-  apt: name={{ item }} state=present
-  with_items:
-   - prosody
-   - prosody-modules
-   - lua-sec
-   - lua-zlib
+  apt:
+    name: "{{ prosody_dependencies }}"
+    state: present
   tags: [apt, packages, prosody]
 
 - name: make sure acmetool has certs for all hosts
