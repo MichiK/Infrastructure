@@ -1,4 +1,4 @@
 ---
 
 dovecot_imap_max_userip_connections: 50
-dovecot_imap_idle_notify_interval: 1800
+dovecot_imap_idle_notify_interval: "1800s"

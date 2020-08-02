@@ -3,13 +3,25 @@
 <VirtualHost *:80>
   ServerName {{ fqdn }}
   DocumentRoot {{ document_root }}
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
-{% if apache_force_https %}
-  <IfModule mod_ssl.c>
-    Redirect permanent / https://{{ fqdn }}/
+  <IfModule mod_headers.c>
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "same-origin"
   </IfModule>
+{% if apache_force_https %}
+  <IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  </IfModule>
+  <IfModule mod_ssl.c>
+    RewriteEngine On
+    RewriteRule ^/(.*) https://{{ fqdn }}/$1 [R=301,L]
+  </IfModule>
+{% else %}
+  ErrorLog ${APACHE_LOG_DIR}/{{ fqdn }}-error.log
+  CustomLog ${APACHE_LOG_DIR}/{{ fqdn }}-access.log combined
 {% endif %}
+  Alias /.well-known {{ document_root }}/.well-known
 {% if apache_additional_default_http_vhost_settings != None %}
 {{ apache_additional_default_http_vhost_settings }}
 {% endif %}

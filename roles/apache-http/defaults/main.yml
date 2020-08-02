@@ -3,6 +3,9 @@
 fqdn: "{{ ansible_fqdn }}"
 document_root: "/var/www/html"
 
+apache_dependencies:
+ - "apache2"
+
 apache_force_https: true
 apache_additional_default_http_vhost_settings: null
 apache_vhosts: null

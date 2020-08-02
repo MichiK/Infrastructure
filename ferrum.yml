@@ -6,6 +6,4 @@
     - common
     - cryptroot-net
     - dovecot-imapd
-    - dovecot-antispam
-    - nfs-server
     - apache-https

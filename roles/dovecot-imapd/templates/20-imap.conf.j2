@@ -3,7 +3,5 @@
 protocol imap {
   mail_max_userip_connections = {{ dovecot_imap_max_userip_connections }}
   imap_idle_notify_interval = {{ dovecot_imap_idle_notify_interval }}
-{% if "dovecot-antispam" in role_names %}
-  mail_plugins = $mail_plugins antispam
-{% endif %}
+  mail_plugins = $mail_plugins{{ " antispam" if "dovecot-antispam" in role_names else "" }}
 }

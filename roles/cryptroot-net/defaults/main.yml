@@ -1,5 +1,5 @@
 ---
 
-ssh_keys: []
+ssh_pubkeys: []
 
 cryptroot_default_network_interface: "eth0"
