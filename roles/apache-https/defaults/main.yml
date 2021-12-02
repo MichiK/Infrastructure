@@ -5,6 +5,5 @@ document_root: "/var/www/html"
 
 ssl_ciphers_tls12: "ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256"
 ssl_ciphers_tls13: "TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256"
-ssl_protocol: "All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1"
 
 apache_additional_default_https_vhost_settings: null

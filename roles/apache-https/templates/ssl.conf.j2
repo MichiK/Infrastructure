@@ -1,10 +1,10 @@
 <IfModule mod_ssl.c>
   SSLCipherSuite {{ ssl_ciphers_tls12 }}
   SSLCipherSuite TLSv1.3 {{ ssl_ciphers_tls13 }}
-  SSLProtocol {{ ssl_protocol }}
   SSLHonorCipherOrder On
-  SSLOpenSSLConfCmd ECDHParameters Automatic
-  SSLOpenSSLConfCmd Curves secp521r1:secp384r1
+  SSLOpenSSLConfCmd ECDHParameters secp384r1
+  SSLOpenSSLConfCmd Curves secp384r1
+  SSLUseStapling off
 </IfModule>
 
 # vim: syntax=apache

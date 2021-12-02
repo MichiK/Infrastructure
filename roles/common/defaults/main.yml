@@ -1,10 +1,12 @@
 ---
 
+apt_distribution_release: "{{ ansible_distribution_release }}"
+
 apt_standard_repos:
-  - deb http://ftp.de.debian.org/debian/ buster main contrib non-free
-  - deb http://ftp.de.debian.org/debian/ buster-updates main contrib non-free
-  - deb http://security.debian.org/ buster/updates main contrib non-free
-  - deb http://ftp.de.debian.org/debian buster-backports main contrib non-free
+  - "deb http://ftp.de.debian.org/debian/ {{ apt_distribution_release }} main contrib non-free"
+  - "deb http://ftp.de.debian.org/debian/ {{ apt_distribution_release }}-updates main contrib non-free"
+  - "deb http://security.debian.org/ {{ apt_distribution_release }}-security main contrib non-free"
+  - "deb http://ftp.de.debian.org/debian/ {{ apt_distribution_release }}-backports main contrib non-free"
 
 apt_essential_packages:
   - ansible
@@ -18,7 +20,7 @@ apt_essential_packages:
   - hddtemp
   - hdparm
   - rsync
-  - python-apt
+  - python3-apt
   - git
 
 apt_unwanted_packages:
