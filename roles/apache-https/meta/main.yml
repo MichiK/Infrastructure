@@ -2,4 +2,3 @@
 
 dependencies:
   - { role: apache-http }
-  - { role: acmetool }

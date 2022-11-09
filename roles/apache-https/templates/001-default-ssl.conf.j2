@@ -6,8 +6,8 @@
   ErrorLog ${APACHE_LOG_DIR}/{{ fqdn }}.error.log
   CustomLog ${APACHE_LOG_DIR}/{{ fqdn }}.access.log extended
   SSLEngine on
-  SSLCertificateFile /var/lib/acme/live/{{ fqdn }}/fullchain
-  SSLCertificateKeyFile /var/lib/acme/live/{{ fqdn }}/privkey
+  SSLCertificateFile /etc/letsencrypt/live/{{ fqdn }}/fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/{{ fqdn }}/privkey.pem
   <IfModule mod_headers.c>
     Header always set X-XSS-Protection "1; mode=block"
     Header always set X-Frame-Options "DENY"
@@ -15,6 +15,7 @@
     Header always set Referrer-Policy "same-origin"
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
   </IfModule>
+  Alias "/.well-known/acme-challenge" "{{ document_root }}/.well-known/acme-challenge"
 {% if apache_additional_default_https_vhost_settings != None %}
   {{ apache_additional_default_https_vhost_settings }}
 {% endif %}

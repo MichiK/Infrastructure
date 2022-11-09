@@ -21,7 +21,7 @@
   ErrorLog ${APACHE_LOG_DIR}/{{ fqdn }}-error.log
   CustomLog ${APACHE_LOG_DIR}/{{ fqdn }}-access.log combined
 {% endif %}
-  Alias /.well-known {{ document_root }}/.well-known
+  Alias "/.well-known/acme-challenge" "{{ document_root }}/.well-known/acme-challenge"
 {% if apache_additional_default_http_vhost_settings != None %}
 {{ apache_additional_default_http_vhost_settings }}
 {% endif %}

@@ -5,5 +5,5 @@ ssl_ciphers: "ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-
 dh_param_length: 4096
 
 dovecot_mail_location: "maildir:~/Maildir"
-dovecot_ssl_protocols: "TLSv1.2"
+dovecot_ssl_min_protocol: "TLSv1.2"
 dovecot_prefer_server_ciphers: true

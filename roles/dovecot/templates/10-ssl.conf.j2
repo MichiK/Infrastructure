@@ -1,9 +1,8 @@
 # {{ ansible_managed }}
 
 ssl = required
-ssl_cert = </var/lib/acme/live/{{ fqdn }}/fullchain
-ssl_key = </var/lib/acme/live/{{ fqdn }}/privkey
-ssl_dh_parameters_length = {{ dh_param_length }}
-ssl_protocols = {{ dovecot_ssl_protocols }}
+ssl_cert = </etc/letsencrypt/live/{{ fqdn }}/fullchain.pem
+ssl_key = </etc/letsencrypt/live/{{ fqdn }}/privkey.pem
+ssl_min_protocol = {{ dovecot_ssl_min_protocol }}
 ssl_prefer_server_ciphers = {{ "yes" if dovecot_prefer_server_ciphers else "no" }}
 ssl_cipher_list = '{{ ssl_ciphers }}'
